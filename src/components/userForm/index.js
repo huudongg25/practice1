@@ -1,11 +1,11 @@
 import classNames from "classnames/bind";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styles from "./UserForm.module.scss";
 
 const cx = classNames.bind(styles);
 
 function UserForm() {
-  const [info, setInfo] = useState({ name: "", gender: "", skills: "" });
+  const [info, setInfo] = useState({ name: "", gender: "", skills: [] });
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [skills, setSkills] = useState([]);
@@ -13,9 +13,34 @@ function UserForm() {
     e.preventDefault();
   };
 
+  const checkRef1 = useRef();
+  const checkRef2 = useRef();
+  const checkRef3 = useRef();
+  const checkRef4 = useRef();
+  const checkRef5 = useRef();
+  const checkRef6 = useRef();
+  const checkRef7 = useRef();
+
   const handleSubmit = () => {
     setInfo({ name: name, gender: gender, skills: skills.join(", ") });
     setName("");
+    setGender("");
+    checkRef1.current.checked = false;
+    checkRef2.current.checked = false;
+    checkRef3.current.checked = false;
+    checkRef4.current.checked = false;
+    checkRef5.current.checked = false;
+    checkRef6.current.checked = false;
+    checkRef7.current.checked = false;
+    setSkills([""]);
+  };
+
+  const handleCheckbox = (e) => {
+    if (info.skills.includes(e.target.value)) {
+      return setSkills((prev) => [...prev]);
+    } else {
+      return setSkills((prev) => [...prev, e.target.value]);
+    }
   };
   return (
     <div className={cx("wrapper")}>
@@ -35,6 +60,7 @@ function UserForm() {
           <div className={cx("input-gender")}>
             Nam
             <input
+              ref={checkRef1}
               onChange={(e) => setGender(e.target.value)}
               name="gender"
               value="Nam"
@@ -42,6 +68,7 @@ function UserForm() {
             />
             Nữ
             <input
+              ref={checkRef2}
               onChange={(e) => setGender(e.target.value)}
               name="gender"
               value="Nữ"
@@ -49,6 +76,7 @@ function UserForm() {
             />
             Khác
             <input
+              ref={checkRef3}
               onChange={(e) => setGender(e.target.value)}
               name="gender"
               value="Khác"
@@ -58,29 +86,48 @@ function UserForm() {
           <div className={cx("input-skills")}>
             <label htmlFor="Javascript">Javascript </label>
             <input
-              onChange={(e) => setSkills((prev) => [...prev, e.target.value])}
+              ref={checkRef4}
+              onChange={(e) => {
+                if (e.target.checked === true) {
+                  handleCheckbox(e);
+                }
+              }}
               id="Javascript"
               type="checkbox"
               value="Javascript"
             />
             <label htmlFor="C++">C++ </label>
             <input
-              onChange={(e) => setSkills((prev) => [...prev, e.target.value])}
+              ref={checkRef5}
+              onChange={(e) => {
+                if (e.target.checked === true) {
+                  handleCheckbox(e);
+                }
+              }}
               id="C++"
               type="checkbox"
               value="C++"
             />
             <label htmlFor="PHP">PHP </label>
             <input
-              onChange={(e) => setSkills((prev) => [...prev, e.target.value])}
+              ref={checkRef6}
+              onChange={(e) => {
+                if (e.target.checked === true) {
+                  handleCheckbox(e);
+                }
+              }}
               id="PHP"
               type="checkbox"
               value="PHP"
             />
             <label htmlFor="C#">C#</label>
-
             <input
-              onChange={(e) => setSkills((prev) => [...prev, e.target.value])}
+              ref={checkRef7}
+              onChange={(e) => {
+                if (e.target.checked === true) {
+                  handleCheckbox(e);
+                }
+              }}
               id="C#"
               type="checkbox"
               value="C#"
